@@ -1,0 +1,24 @@
+<section class="container grid-960">
+    <form class="col-sm-12 col-md-4 centered">
+        <header class="text-center">
+            <h4>用户登录</h4>
+        </header>
+        <section class="block" style="margin-bottom: 1rem;">
+            <div ng-if="validate.msg.length>0" class="toast toast-danger"><span class="icon icon-error_outline"></span>{{validate.msg}}</div>
+        </section>
+        <section>
+            <div class="form-group">
+                <label class="form-label" for="input-username">用户名:&nbsp;<span class="text-danger text-bold">*</span></label>
+                <input class="form-input" ng-class="{'is-danger':validate.error.user_name}" ng-model="userLoginInfo.user_name" type="text" id="input-username" placeholder="请在此输入用户名">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="input-password">密码:&nbsp;<span class="text-danger text-bold">*</span></label>
+                <input class="form-input" ng-class="{'is-danger':validate.error.password}" ng-model="userLoginInfo.password" type="password" id="input-password" placeholder="请在此输入用户密码">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" ng-click="login()">用户登录</button>
+                <button class="btn btn-link" type="reset">重置</button>
+            </div>
+        </section>
+    </form>
+</section>

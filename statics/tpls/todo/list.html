@@ -1,0 +1,18 @@
+<section class="container grid-960" ng-init="fetchList();">
+    <section class="text-center">
+        <ul class="tab inline-flex">
+            <li class="tab-item" ng-class="{active:status.id == currentStatus}" ng-repeat="status in todoStatusCateogries" ng-click="filterStatusList(status.id)">
+                <a href="javascript:;">{{status.name}}<span ng-if="status.id==2&&unfinishNum>0" class="badge" data-badge="{{unfinishNum}}"></span></a>
+            </li>
+        </ul>
+    </section>
+    <section class="centered col-md-4 col-sm-12">
+        <div ng-if="loading==true" class="loading"></div>
+        <ul ng-if="filterList.length>0" class="list">
+            <li ng-repeat="item in filterList" ng-class="{'text-gray':item.status==2}" ng-style="{'text-decoration':item.status==2?'line-through':'none'}" class="form-checkbox" style="display:block;">
+                <input type="checkbox" ng-checked="item.status==2"><i class="form-icon" ng-click="updateStatus(item.id)"></i><span ng-click="directToDetail(item.id)">{{item.todo_name}}</span>&nbsp;<span class="label text-grey">{{item.end_time == 0 ? '无截止时间' : timestampToDate(item.end_time)}}</span>
+            </li>
+        </ul>
+        <div ng-if="filterList.length==0" class="wall text-center" style="margin-top:5rem;">该类别下还没有TODO!&nbsp;<a ui-sref="todo.insert" ng-if="currentStatus!=1">点我添加</a></div>
+    </section>
+</section>

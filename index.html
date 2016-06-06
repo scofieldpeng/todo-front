@@ -1,0 +1,39 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="robots" content="index,follow">
+    <title>[[.Title]]|I WANT TO-简单够用的Todo List</title>
+    <meta name="author" content="Scofield Peng">
+    <meta name="description" content="简单好用的Todo List">
+    <meta name="keyword" content="待做记事,todo list">
+    <link href="/statics/css/spectre.min.css" rel="stylesheet">
+    <script src="/statics/utils/utils.js"></script>
+    <script src="/statics/app.js"></script>
+</head>
+<body ng-app="todo">
+    <style>
+        .bg-grey {
+            background-color: #efefef;
+            padding: 1rem;
+            border-radius: .3rem;
+        }
+        .grid-hero {
+            margin-top: 10rem;
+            margin-bottom: 10rem;
+        }
+    </style>
+    <section class="section bg-grey">
+        <setion class="grid-hero container grid-960">
+            <header class="title text-center">
+                <h3>I WANT TO...</h3>
+                <h6 class="text-italic">世界那么大,想做的事有好多</h6>
+            </header>
+            <section class="text-center" style="margin-top:3rem;margin-bottom:3rem;">
+                <a ui-sref="todo.insert" class="btn btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;添加TODO&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            </section>
+        </setion>
+    </section>
+    <div ui-view></div>
+</body>
+</html>
