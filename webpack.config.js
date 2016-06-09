@@ -28,14 +28,20 @@ module.exports={
             }
         ]
     },
+    devtool:"source-map",
     plugins:[
+        new webpack.ProvidePlugin({
+            'webpack':'webpack'
+        }),
         new webpack.optimize.CommonsChunkPlugin({
             filename:"./utils/utils.js",
             name:"angular",
             minChunks: Infinity,
             chunks:["angular"]
         }),
+        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false

@@ -64,7 +64,6 @@ app.run(["$rootScope","$state","todoTools",function($rootScope,$state,todoTools)
         $rootScope.previousState = fromState.name;
         // 判断用户是否登录
         if (publicUrls.indexOf(toState.name) == -1) {
-            console.log(todoTools.isLogin());
             if (!todoTools.isLogin()) {
                 $state.go('login');
             }

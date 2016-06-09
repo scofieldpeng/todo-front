@@ -6,6 +6,7 @@ var WebpackDevServer = require("webpack-dev-server"),
     webpackConfig = require("./webpack.config");
 
     webpackConfig.entry.app.unshift("webpack-dev-server/client?http://localhost:8088");
+    webpackConfig.entry.angular.unshift("webpack-dev-server/client?http://localhost:8088");
 
 var server = new WebpackDevServer(webpack(webpackConfig),{
         contentBase:__dirname,
@@ -15,6 +16,10 @@ var server = new WebpackDevServer(webpack(webpackConfig),{
         compress:true,
         proxy:{
             "/api/v1*":{
+                target:"http://localhost:8081",
+                secure:false
+            },
+            "/":{
                 target:"http://localhost:8081",
                 secure:false
             }

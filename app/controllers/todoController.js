@@ -213,7 +213,7 @@ app.controller("todoController",["$scope","$window","todoTools","todoModel","$st
 
         todoModel.update(todoItem).then( (data) => {
         }, (response) => {
-            if(resp.status == 401) {
+            if(response.status == 401) {
                 $state.go("login");
                 return;
             }
@@ -235,6 +235,10 @@ app.controller("todoController",["$scope","$window","todoTools","todoModel","$st
         }).then( (data) => {
             $state.go("todo.list");
         }, (response) => {
+            if(response.status == 401) {
+                $state.go("login");
+                return;
+            }
             let errMsg = "请求错误";
             if(typeof response.data == 'object' && typeof response.data.errmsg != 'undefined') {
                 errMsg = response.data.errmsg + "(错误代码:" + response.data.errcode + ")";

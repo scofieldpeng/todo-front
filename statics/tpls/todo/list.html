@@ -6,7 +6,7 @@
             </li>
         </ul>
     </section>
-    <section class="centered col-md-4 col-sm-12">
+    <section class="centered col-md-4 col-sm-6 col-xs-12">
         <div ng-if="loading==true" class="loading"></div>
         <ul ng-if="filterList.length>0" class="list">
             <li ng-repeat="item in filterList" ng-class="{'text-gray':item.status==2}" ng-style="{'text-decoration':item.status==2?'line-through':'none'}" class="form-checkbox" style="display:block;">
