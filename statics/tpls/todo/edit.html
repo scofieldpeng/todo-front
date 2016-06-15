@@ -20,6 +20,10 @@
                 <input type="date" id="input-endTime" ng-class="{'is-danger':validate.error.end_time}" ng-model="newTodo.end_time">
             </div>
             <div class="form-group">
+                <label class="form-label" for="input-score">奖励积分:&nbsp;<span class="text-danger text-bold">*</span></label>
+                <input class="form-input col-3" ng-minlength="1" min="1" type="number" ng-class="{'is-danger':validate.error.score}" ng-model="newTodo.score" id="input-score" placeholder="在此输入完成后奖励给自己的积分值">
+            </div>
+            <div class="form-group">
                 <label class="form-label" for="input-remark">备注:</label>
                 <textarea class="form-input" ng-class="{'is-danger':validate.error.remark}" ng-model="newTodo.remark" id="input-remark"></textarea>
             </div>

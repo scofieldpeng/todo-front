@@ -10,7 +10,13 @@
         <div ng-if="loading==true" class="loading"></div>
         <ul ng-if="filterList.length>0" class="list">
             <li ng-repeat="item in filterList" ng-class="{'text-gray':item.status==2}" ng-style="{'text-decoration':item.status==2?'line-through':'none'}" class="form-checkbox" style="display:block;">
-                <input type="checkbox" ng-checked="item.status==2"><i class="form-icon" ng-click="updateStatus(item.id)"></i><span ng-click="directToDetail(item.id)">{{item.todo_name}}</span>&nbsp;<span class="label text-grey">{{item.end_time == 0 ? '无截止时间' : timestampToDate(item.end_time)}}</span>
+                <input type="checkbox" ng-checked="item.status==2"><i class="form-icon" ng-click="updateStatus(item.id)"></i>
+                <span ng-switch="item.star">
+                    <span ng-switch-when="2" class="label">重要</span>
+                    <span ng-switch-when="3" class="label label-primary">紧急</span>
+                    <span ng-switch-when="4" class="label label-danger">紧急且重要</span>
+                </span>
+                <span ng-click="directToDetail(item.id)">{{item.todo_name}}</span>&nbsp;<span class="label text-grey">{{item.end_time == 0 ? '无截止时间' : timestampToDate(item.end_time)}}</span>
             </li>
         </ul>
         <div ng-if="filterList.length==0" class="wall text-center" style="margin-top:5rem;">该类别下还没有TODO!&nbsp;<a ui-sref="todo.insert" ng-if="currentStatus!=1">点我添加</a></div>

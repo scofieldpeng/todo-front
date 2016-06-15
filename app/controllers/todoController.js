@@ -12,6 +12,7 @@ import "../models/todoModel";
  * todo todo的一些controller
  */
 app.controller("todoController",["$scope","$window","todoTools","todoModel","$state","$stateParams","todo-consts",function($scope,$window,todoTools,todoModel,$state,$stateParams,todoConsts){
+    const DEFAULT_TODOSTAR = 1;
     // 用户的todo列表
     $scope.todoList = [];
     // 用户的todo列表(
@@ -37,6 +38,8 @@ app.controller("todoController",["$scope","$window","todoTools","todoModel","$st
             userid:todoTools.userInfo.userid() == 0 ? 1 : parseInt(todoTools.userInfo.userid()),
             categoryid:todoConsts.DEFAULT_CATEGORYID,
             status:todoConsts.DEFAULT_TODOSTATUS,
+            star:DEFAULT_TODOSTAR,
+            score:1,
             remark:""
         };
     };
@@ -56,7 +59,8 @@ app.controller("todoController",["$scope","$window","todoTools","todoModel","$st
             todo_name:false,
             remark:false,
             start_time:false,
-            end_time:false
+            end_time:false,
+            score:false
         }
     };
 
@@ -115,6 +119,14 @@ app.controller("todoController",["$scope","$window","todoTools","todoModel","$st
                 if ($scope.newTodo.end_time != 0 ) {
                     $scope.newTodo.end_time = new Date($scope.newTodo.end_time * 1000);
                 }
+
+                // 解析star星级程度,然后还原到字符串中
+                if ($scope.newTodo.star > 1){
+                    for (let i = 0;i<$scope.newTodo.star;i++) {
+                        $scope.newTodo.todo_name = "!" + $scope.newTodo.todo_name;
+                    }
+                }
+
             }, (response) => {
                 let errMsg = "请求错误";
                 if(typeof response.data == 'object' && typeof response.data.errmsg != 'undefined') {
@@ -140,8 +152,29 @@ app.controller("todoController",["$scope","$window","todoTools","todoModel","$st
         });
     };
 
+
     /**
-     * 添加一个todo
+     * 解析出todo的重要级别,1-4,由低到高代表重要程度
+     * 通过判断todo文字的开头
+     * @param todoText
+     */
+    function parseStar(todoText) {
+        if(0 == todoText.indexOf("!")) {
+            let  matchArr = todoText.match(/^!+/ig),
+                matchedStr = matchArr[0];
+            if(matchedStr.length>4){
+                return 4;
+            } else {
+                return matchedStr.length;
+            }
+        }
+
+        return 0;
+    }
+
+
+    /**
+     * 添加/更新一个todo
      */
     $scope.saveTodo = () => {
         if($scope.newTodo.todo_name.length<3|| $scope.newTodo.todo_name.length>30) {
@@ -167,12 +200,22 @@ app.controller("todoController",["$scope","$window","todoTools","todoModel","$st
 
         $scope.newTodo.start_time = startTimeStamp;
         $scope.newTodo.end_time = endTimestamp;
+        if ($scope.newTodo.score < 1 ) {
+            $scope.newTodo.score = 1;
+        }
 
         let promise = null;
         if(typeof $stateParams.todoid != 'undefined') {
             promise = todoModel.update($scope.newTodo);
         } else {
             promise = todoModel.insert($scope.newTodo);
+        }
+
+        // 通过解析判断重要程度
+        $scope.newTodo.star = parseStar($scope.newTodo.todo_name);
+        $scope.newTodo.todo_name = $scope.newTodo.todo_name.substr($scope.newTodo.star);
+        if ($scope.newTodo.star == 0) {
+            $scope.newTodo.star = 1;
         }
 
         promise.then((data)=>{
@@ -198,7 +241,6 @@ app.controller("todoController",["$scope","$window","todoTools","todoModel","$st
      * @param todoid
      */
     $scope.updateStatus = (todoid) => {
-        console.log(todoid);
         let todoItem = $scope.filterList.find((item) => {
             if (item.id == todoid) {
                 item.status = item.status == 2 ? 0 : 2;
